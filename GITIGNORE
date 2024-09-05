@@ -1,0 +1,50 @@
+
+### .gitignore
+
+```gitignore
+# Ignora arquivos do Python
+__pycache__/
+*.py[cod]
+
+# Ignora arquivos de gráficos gerados
+*.png
+
+# Ignora relatórios gerados
+*.docx
+
+# Ignora arquivos de ambientes virtuais
+venv/
+env/
+
+# Ignora arquivos de log temporários
+*.log
+Enunciado
+# Enunciado do Projeto: Análise de Categorias de Produtos nas Indústrias de Artesanato e Automotiva
+
+## Objetivo
+
+O objetivo deste projeto é realizar uma análise exploratória de dados sobre as categorias de produtos em duas indústrias: Artesanato e Automotiva. Serão gerados gráficos que representam a distribuição das categorias e suas proporções em cada indústria. A análise final será apresentada em um relatório em formato Word.
+
+## Descrição
+
+1. **Carregamento e Limpeza de Dados:**
+   - O dataset será carregado de um arquivo CSV e passará por um processo de limpeza, removendo valores ausentes e duplicatas.
+
+2. **Análise Visual:**
+   - Será gerado um gráfico de barras empilhadas mostrando a quantidade de categorias por indústria.
+   - Um gráfico de pizza exibirá a proporção das categorias na indústria de Artesanato.
+   - Um gráfico de linha mostrará a tendência de categorias ao longo do tempo.
+
+3. **Relatório Final:**
+   - O relatório será gerado em formato Word, contendo as visualizações criadas e recomendações baseadas nos dados analisados.
+
+## Requisitos
+
+- Linguagem: Python 3.x
+- Bibliotecas necessárias: pandas, matplotlib, seaborn, python-docx
+
+## Exemplo de Execução
+
+1. O usuário executa o script principal, e os gráficos são salvos como arquivos PNG.
+2. O relatório `relatorio_analise_categorias.docx` é gerado, contendo as análises e visualizações.
+
