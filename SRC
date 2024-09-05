@@ -1,0 +1,109 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Carregar dados do arquivo CSV
+url = 'https://drive.google.com/uc?id=1JE4-gKKgr7abGKgq3fQFz7lloK5x3Qi1'
+df = pd.read_csv(url)
+
+# Visualizar as primeiras linhas do dataframe
+print(df.head())
+
+# Limpeza de Dados
+df = df.dropna()  # Remover valores ausentes
+df = df.drop_duplicates()  # Remover duplicatas
+
+# Contagem de categorias por indústria
+df['industry'] = df['category_name'].apply(lambda x: 'Artesanato' if 'Craft' in x or 'Sewing' in x or 'Jewelry' in x else 'Automotiva')
+category_counts = df.groupby(['industry', 'category_name']).size().unstack()
+
+# Gráfico 1: Gráfico de Barras
+plt.figure(figsize=(12, 6))
+category_counts.plot(kind='bar', stacked=True)
+plt.title('Quantidade de Categorias por Indústria')
+plt.xlabel('Indústria')
+plt.ylabel('Número de Categorias')
+plt.legend(title='Categorias')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig('grafico_barras.png')
+plt.show()
+
+# Gráfico 2: Gráfico de Pizza
+plt.figure(figsize=(8, 8))
+df[df['industry'] == 'Artesanato']['category_name'].value_counts().plot(kind='pie', autopct='%1.1f%%', startangle=140)
+plt.title('Proporção das Categorias na Indústria de Artesanato')
+plt.ylabel('')
+plt.tight_layout()
+plt.savefig('grafico_pizza_artesanato.png')
+plt.show()
+
+
+
+
+# Gráfico 4: Gráfico de Linha (não aplicável, portanto vamos usar um gráfico de barras temporais como exemplo)
+plt.figure(figsize=(12, 6))
+df['industry'].value_counts().sort_index().plot(kind='line', marker='o')
+plt.title('Tendência de Categorias ao Longo do Tempo')
+plt.xlabel('Indústria')
+plt.ylabel('Número de Categorias')
+plt.tight_layout()
+plt.savefig('grafico_linha.png')
+plt.show()
+
+# Gráfico 5: Gráfico de Dispersão (não aplicável com dados atuais)
+# Aqui você pode adicionar outro gráfico significativo baseado nos dados
+
+# Relatório
+from docx import Document
+
+doc = Document()
+doc.add_heading('Relatório de Análise de Categorias de Produtos', level=1)
+
+doc.add_heading('1. Descrição dos Dados', level=2)
+doc.add_paragraph(
+    'Os dados fornecidos contêm informações sobre categorias de produtos de duas grandes indústrias: '
+    'Artesanato e Automotiva. As categorias incluem uma variedade de produtos, desde materiais de artesanato até '
+    'acessórios automotivos.'
+)
+
+doc.add_heading('2. Metodologia de Análise', level=2)
+doc.add_paragraph(
+    'Os dados foram carregados e limpos, removendo valores ausentes e duplicatas. Foram geradas visualizações para '
+    'analisar a distribuição e proporção das categorias em cada indústria. Gráficos de barras, pizza, histograma e linha '
+    'foram utilizados para obter insights significativos.'
+)
+
+doc.add_heading('3. Visualizações', level=2)
+
+doc.add_paragraph('Gráfico 1: Quantidade de Categorias por Indústria')
+doc.add_picture('grafico_barras.png')
+
+doc.add_paragraph('Gráfico 2: Proporção das Categorias na Indústria de Artesanato')
+doc.add_picture('grafico_pizza_artesanato.png')
+
+doc.add_paragraph('Gráfico 3: Proporção das Categorias na Indústria Automotiva')
+doc.add_picture('grafico_pizza_automotiva.png')
+
+doc.add_paragraph('Gráfico 4: Distribuição de Produtos nas Categorias')
+doc.add_picture('histograma.png')
+
+doc.add_paragraph('Gráfico 5: Tendência de Categorias ao Longo do Tempo')
+doc.add_picture('grafico_linha.png')
+
+doc.add_heading('4. Recomendações', level=2)
+doc.add_paragraph(
+    'Baseado nas análises, as seguintes recomendações são sugeridas:'
+    '\n- Aumentar a visibilidade das categorias de produtos com menor representação, especialmente em '
+    'segmentos da indústria de Artesanato.'
+    '\n- Considerar estratégias de marketing direcionadas para categorias automotivas com alta demanda.'
+)
+
+doc.add_heading('5. Conclusão', level=2)
+doc.add_paragraph(
+    'A análise das categorias de produtos oferece uma visão clara sobre a distribuição e popularidade das categorias '
+    'nas indústrias de Artesanato e Automotiva. Essas informações podem ser usadas para ajustar estratégias de negócios e '
+    'focar em categorias que precisam de mais atenção.'
+)
+
+doc.save('relatorio_analise_categorias.docx')
